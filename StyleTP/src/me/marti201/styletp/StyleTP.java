@@ -1,5 +1,6 @@
 package me.marti201.styletp;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -62,6 +63,14 @@ public class StyleTP extends JavaPlugin implements CommandExecutor, Listener {
 					+ "There is a problem with the 'effect' or 'sound' variables in the StyleTP configuration file! The plugin won't work until it's fixed");
 		}
 
+		// MetricsLite (mcstats.org)
+		try {
+			MetricsLite metrics = new MetricsLite(this);
+			metrics.start();
+		} catch (IOException ex) {
+			getLogger().warning("Error submitting metrics: " + ex.getMessage());
+		}
+
 	}
 
 	@Override
@@ -89,7 +98,7 @@ public class StyleTP extends JavaPlugin implements CommandExecutor, Listener {
 			sender.sendMessage("You can't use this command as the console");
 		return true;
 	}
-	
+
 	// Overriding other plugins to see if they cancel the event
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onTeleport(PlayerTeleportEvent e) {
