@@ -117,7 +117,7 @@ public class StyleTP extends JavaPlugin implements CommandExecutor, Listener {
 		// Playing the effects at the center of the player's body
 		loc = new Location(loc.getWorld(), loc.getX(), loc.getY() + 1, loc.getZ());
 
-		loc.getWorld().playSound(loc, sound, soundPitch, soundVolume);
+		loc.getWorld().playSound(loc, sound, soundVolume, soundPitch);
 		for (int i = 0; i < particlesNumber; i++) {
 			loc.getWorld().playEffect(loc, effect, 0, 3);
 		}
