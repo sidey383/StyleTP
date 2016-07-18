@@ -1,7 +1,7 @@
 #StyleTP configuration file
 
 #The sound played when teleporting 
-#Type it as it's here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Effect.html
+#Type it as it's here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
 #Surrounded by ' '
 sound: 'ENTITY_ENDERMEN_TELEPORT'
 
@@ -14,7 +14,7 @@ sound-pitch: 1.0
 sound-volume: 1.0
 
 #The particle effect played when teleporting
-#Type it as it's here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
+#Type it as it's here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Effect.html
 #Surrounded by ' '
 effect: 'SPLASH'
 
