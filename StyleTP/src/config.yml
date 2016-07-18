@@ -1,0 +1,32 @@
+#StyleTP configuration file
+
+#The sound played when teleporting 
+#Type it as it's here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Effect.html
+#Surrounded by ' '
+sound: 'ENTITY_ENDERMEN_TELEPORT'
+
+#The sound pitch
+#Default is 1.0
+sound-pitch: 1.0
+
+#The sound volume
+#Default is 1.0
+sound-volume: 1.0
+
+#The particle effect played when teleporting
+#Type it as it's here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
+#Surrounded by ' '
+effect: 'SPLASH'
+
+#The message sent to the player when enabling the effects (Supports color codes)
+message-enable: '&a[StyleTP] You enabled teleportation effects'
+
+#The message sent to the player when disabling the effects (Supports color codes)
+message-disable: '&c[StyleTP] You disabled teleportation effects'
+
+#The message sent to the player when enabling the effects (Supports color codes)
+message-no-permission: '&4[StyleTP] You don''t have permission to use this command!'
+
+#The number of particles that get spawned
+#Don't set it too high or the server may crash!
+number-of-particles: 35
