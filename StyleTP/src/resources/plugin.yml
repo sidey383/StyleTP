@@ -1,6 +1,6 @@
 name: StyleTP
-version: 1.0
-author: Marti201 sidey383
+version: 2.0
+author: [Marti201, sidey383]
 main: me.marti201.styletp.StyleTP
 commands:
   styletp:
