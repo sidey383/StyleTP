@@ -1,9 +1,9 @@
 package me.marti201.styletp;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.UUID;
+import java.util.logging.Level;
 
+import me.marti201.styletp.table.OffTable;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -22,7 +22,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class StyleTP extends JavaPlugin implements CommandExecutor, Listener {
 
-	ArrayList<UUID> off = new ArrayList<UUID>();
+	private OffTable offTable;
 
 	String enableMsg;
 	String disableMsg;
@@ -48,7 +48,12 @@ public class StyleTP extends JavaPlugin implements CommandExecutor, Listener {
 		particlesNumber = conf.getInt("number-of-particles");
 		soundPitch = (float) conf.getDouble("sound-pitch");
 		soundVolume = (float) conf.getDouble("sound-volume");
-
+		try {
+			offTable = OffTable.createOffTable(conf);
+			OffTable.setLogger(getLogger());
+		} catch (Exception e) {
+			getLogger().log(Level.WARNING, "Can't load database", e);
+		}
 		try {
 			// Trying to make this as easy to set as possible by replacing
 			// spaces with underscores and making everything uppercase
@@ -63,21 +68,11 @@ public class StyleTP extends JavaPlugin implements CommandExecutor, Listener {
 					+ "There is a problem with the 'effect' or 'sound' variables in the StyleTP configuration file! The plugin won't work until it's fixed");
 		}
 
-		// MetricsLite (mcstats.org)
-		try {
-			MetricsLite metrics = new MetricsLite(this);
-			metrics.start();
-		} catch (IOException ex) {
-			getLogger().warning("Error submitting metrics: " + ex.getMessage());
-		}
-
 	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (sender instanceof Player) {
-
-			Player p = (Player) sender;
+		if (sender instanceof Player p) {
 
 			if (!p.hasPermission("styletp.use")) {
 				p.sendMessage(noPermission);
@@ -86,11 +81,11 @@ public class StyleTP extends JavaPlugin implements CommandExecutor, Listener {
 
 			UUID uuid = p.getUniqueId();
 
-			if (off.contains(uuid)) {
-				off.remove(uuid);
+			if (ifOff(uuid)) {
+				setOff(uuid, false);
 				p.sendMessage(enableMsg);
 			} else {
-				off.add(uuid);
+				setOff(uuid, true);
 				p.sendMessage(disableMsg);
 			}
 
@@ -104,7 +99,7 @@ public class StyleTP extends JavaPlugin implements CommandExecutor, Listener {
 	public void onTeleport(PlayerTeleportEvent e) {
 		Player p = e.getPlayer();
 
-		if (e.isCancelled() || !p.hasPermission("styletp.use") || off.contains(p.getUniqueId()))
+		if (e.isCancelled() || !p.hasPermission("styletp.use") || ifOff(p.getUniqueId()) || (e.getTo().getWorld() == e.getFrom().getWorld() && e.getTo().distance(e.getFrom()) < 10.0D))
 			return; // No need to do anything
 
 		if (configProblem) {
@@ -130,6 +125,14 @@ public class StyleTP extends JavaPlugin implements CommandExecutor, Listener {
 		for (int i = 0; i < particlesNumber; i++) {
 			loc.getWorld().playEffect(loc, effect, 0, 3);
 		}
+	}
+
+	public boolean ifOff(UUID player) {
+		return offTable.isOff(player);
+	}
+
+	public void setOff(UUID player, boolean off) {
+		offTable.setOff(player, off);
 	}
 
 }
