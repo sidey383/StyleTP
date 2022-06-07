@@ -12,7 +12,7 @@ public class MySQLOffTable extends OffTable{
         this.user = user;
         this.password = password;
         try(Connection con = getConnection()) {
-            PreparedStatement st = con.prepareStatement("CREATE TABLE IF NOT EXISTS StyleTPTable (VARCHAR(255) PRIMARY KET uuid, BOOL off)");
+            PreparedStatement st = con.prepareStatement("CREATE TABLE IF NOT EXISTS StyleTPTable ( uuid VARCHAR(255) PRIMARY KEY, off BOOL)");
             st.execute();
         }
     }

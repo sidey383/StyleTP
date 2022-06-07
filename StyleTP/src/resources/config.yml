@@ -1,9 +1,11 @@
 #StyleTP configuration file
+#The database for saving styletp status
+#Type available values: My  Sql, SQLite
 database:
   url: StyleTP.db
   login: login
   password: password
-  type: SQL
+  type: SQLite
 #The sound played when teleporting 
 #Type it as it's here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
 #Surrounded by ' '

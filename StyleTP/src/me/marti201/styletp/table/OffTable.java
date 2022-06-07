@@ -1,14 +1,18 @@
 package me.marti201.styletp.table;
 
+import me.marti201.styletp.StyleTP;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.checkerframework.framework.qual.Unused;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public abstract class OffTable {
+public abstract class OffTable implements Listener {
 
     private static Logger logger = Logger.getLogger("OffTable");
 
@@ -19,7 +23,7 @@ public abstract class OffTable {
             return null;
         return switch (type.toLowerCase()) {
             case "mysql" -> new MySQLOffTable(url, login, password);
-            case "sqlite" -> new SQLiteOffTable(url);
+            case "sqlite" -> new SQLiteOffTable(new File(StyleTP.getPlugin().getDataFolder(), url).getAbsolutePath());
             default -> null;
         };
     }
@@ -61,6 +65,11 @@ public abstract class OffTable {
     
     public static Logger getLogger() {
         return logger;
+    }
+
+    @EventHandler
+    public void onLeave(PlayerQuitEvent e) {
+        isOff.remove(e.getPlayer().getUniqueId());
     }
 
 }

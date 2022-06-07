@@ -23,7 +23,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class StyleTP extends JavaPlugin implements CommandExecutor, Listener {
 
 	private OffTable offTable;
-
+	private static StyleTP plugin;
 	String enableMsg;
 	String disableMsg;
 	String noPermission;
@@ -35,6 +35,7 @@ public class StyleTP extends JavaPlugin implements CommandExecutor, Listener {
 	int particlesNumber;
 
 	public void onEnable() {
+		plugin = this;
 		getServer().getPluginManager().registerEvents(this, this);
 		getCommand("styletp").setExecutor(this);
 
@@ -50,6 +51,7 @@ public class StyleTP extends JavaPlugin implements CommandExecutor, Listener {
 		soundVolume = (float) conf.getDouble("sound-volume");
 		try {
 			offTable = OffTable.createOffTable(conf);
+			getServer().getPluginManager().registerEvents(offTable, this);
 			OffTable.setLogger(getLogger());
 		} catch (Exception e) {
 			getLogger().log(Level.WARNING, "Can't load database", e);
@@ -133,6 +135,10 @@ public class StyleTP extends JavaPlugin implements CommandExecutor, Listener {
 
 	public void setOff(UUID player, boolean off) {
 		offTable.setOff(player, off);
+	}
+
+	public static StyleTP getPlugin() {
+		return plugin;
 	}
 
 }
