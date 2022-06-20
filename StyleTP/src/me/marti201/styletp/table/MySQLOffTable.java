@@ -20,7 +20,7 @@ public class MySQLOffTable extends OffTable{
     @Override
     public boolean isOffInTable(UUID p) throws Exception {
         try(Connection con = getConnection()) {
-            PreparedStatement st = con.prepareStatement("SELECT * FROM StyleTPTable WHERE id = ?");
+            PreparedStatement st = con.prepareStatement("SELECT * FROM StyleTPTable WHERE uuid = ?");
             st.setString(1, p.toString());
             ResultSet res = st.executeQuery();
             if(res.next()) {
@@ -34,7 +34,7 @@ public class MySQLOffTable extends OffTable{
     @Override
     public void setOffInTable(UUID p, boolean off) throws Exception {
         try(Connection con = getConnection()) {
-            PreparedStatement st = con.prepareStatement("INSERT INTO StyleTPTable (uuid, id) VALUES (?, ?) ON DUPLICATE KEY UPDATE off=?");
+            PreparedStatement st = con.prepareStatement("INSERT INTO StyleTPTable (uuid, off) VALUES (?, ?) ON DUPLICATE KEY UPDATE off=?");
             st.setString(1, p.toString());
             st.setBoolean(2, off);
             st.setBoolean(3, off);
